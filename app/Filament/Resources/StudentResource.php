@@ -7,6 +7,7 @@ use Filament\Tables;
 use App\Models\Student;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Support\Carbon;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
@@ -47,8 +48,13 @@ class StudentResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('nim')->sortable()->searchable(),
-                TextColumn::make('name')->sortable()->searchable(),
+                TextColumn::make('name')->sortable()->searchable()
+                ->label('Nama'),
                 TextColumn::make('fakultas')->sortable()->searchable(),
+                TextColumn::make('created_at')
+                ->label('Waktu Dibuat')
+                ->sortable()
+                ->formatStateUsing(fn($state) => Carbon::parse($state)->diffForHumans()),
             ])
             ->filters([
                 // 
